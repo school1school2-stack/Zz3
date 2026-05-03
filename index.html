@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج (3) - محاكي القدرات - أ/ عبدالعزيز الفيفي</title>
+    <title>محاكي القدرات اللفظي - نموذج (2) - أ/ عبدالعزيز الفيفي</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <style>
@@ -12,21 +12,20 @@
         .quiz-card { background: var(--white); width: 100%; max-width: 900px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 10px solid var(--maroon); padding: 30px; position: relative; }
         .header { text-align: center; border-bottom: 2px solid var(--gold); margin-bottom: 20px; padding-bottom: 10px; }
         .input-group { margin: 15px auto; width: 85%; text-align: right; }
-        input, select { width: 100%; padding: 14px; border-radius: 8px; border: 1.5px solid #ccc; font-size: 1.1rem; outline: none; box-sizing: border-box; background: #fff; margin-bottom: 10px; display: block; }
+        input, select { width: 100%; padding: 14px; border-radius: 8px; border: 1.5px solid #ccc; font-size: 1.1rem; outline: none; box-sizing: border-box; background: #fff; margin-bottom: 10px; }
         .nav-bar { display: flex; justify-content: space-between; align-items: center; background: #f4f4f4; padding: 12px 20px; border-radius: 10px; margin-bottom: 20px; }
-        .q-text { font-size: 1.4rem; font-weight: bold; text-align: center; margin-bottom: 30px; line-height: 1.8; color: #222; }
-        .reading-text { background-color: #fffde7; border: 1px solid #fff59d; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 1.15rem; text-align: justify; line-height: 1.8; color: #333; }
-        .q-category { display: inline-block; background: var(--maroon); color: var(--gold); padding: 4px 12px; border-radius: 5px; font-size: 0.9rem; margin-bottom: 10px; }
+        .q-section-tag { color: var(--maroon); font-weight: bold; font-size: 1rem; margin-bottom: 10px; display: block; text-align: right; border-right: 4px solid var(--gold); padding-right: 10px; }
+        .q-text { font-size: 1.4rem; font-weight: bold; text-align: center; margin-bottom: 30px; line-height: 1.8; color: #222; min-height: 50px; }
+        .reading-box { background: #fff9e6; border: 1.5px solid #f0e68c; padding: 20px; border-radius: 12px; margin-bottom: 20px; line-height: 1.8; font-size: 1.1rem; text-align: justify; color: #333; }
         .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .opt { padding: 18px; border: 2px solid #ececec; border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: center; font-size: 1.2rem; background: #fff; font-weight: 600; }
         .opt:hover { border-color: var(--gold); background: #fffcf0; }
-        .correct { background: var(--correct) !important; color: white; }
-        .wrong { background: var(--wrong) !important; color: white; }
-        .btn { background: var(--maroon); color: var(--gold); padding: 14px 50px; border: none; border-radius: 10px; cursor: pointer; font-size: 1.2rem; font-weight: bold; width: 100%; }
-        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .correct { background: var(--correct) !important; color: white; border-color: var(--correct) !important; }
+        .wrong { background: var(--wrong) !important; color: white; border-color: var(--wrong) !important; }
+        .btn { background: var(--maroon); color: var(--gold); padding: 14px 50px; border: none; border-radius: 10px; cursor: pointer; font-size: 1.2rem; font-weight: bold; }
         .hidden { display: none !important; }
         #timer { color: var(--maroon); font-size: 1.6rem; font-weight: 800; border: 2px solid var(--gold); padding: 5px 15px; border-radius: 50px; }
-        .fb-box { margin-top: 20px; padding: 20px; background: #f0f4ff; border-right: 8px solid var(--gold); border-radius: 8px; display: none; }
+        .fb-box { margin-top: 20px; padding: 20px; background: #f0f4ff; border-right: 8px solid var(--gold); border-radius: 8px; line-height: 1.8; display: none; color: #1a237e; white-space: pre-line; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -34,13 +33,8 @@
 <div class="quiz-card">
     <div class="header">
         <h3 style="margin:0; color:var(--maroon);">أ / عبدالعزيز الفيفي ✨</h3>
-        <h2 style="margin:5px 0;">محاكي القدرات اللفظي - نموذج (3) المطوّر</h2>
-        <p style="margin:0; color:var(--gold); font-weight:bold;">ثانوية الأمير عبدالمجيد 😊</p>
-    </div>
-
-    <div id="blocked-page" class="hidden" style="text-align: center; padding: 50px;">
-        <h2 style="color: var(--wrong);">نظام الحماية 🛡️</h2>
-        <p style="font-size: 1.3rem;">عذراً، لقد اختبرت في هذا النموذج مسبقاً من هذا الجهاز.</p>
+        <h2 style="margin:5px 0;">محاكي القدرات اللفظي - <span id="model-title">نموذج (2)</span></h2>
+        <p style="margin:0; color:var(--gold); font-weight:bold;">ثانوية الأمير عبدالمجيد 🎓</p>
     </div>
 
     <div id="start-page" style="text-align: center;">
@@ -52,11 +46,9 @@
                 <option value="ثاني ثانوي">ثاني ثانوي</option>
                 <option value="ثالث ثانوي">ثالث ثانوي</option>
             </select>
-            <select id="studentClass" style="display: none;">
-                <option value="">-- اختر الفصل --</option>
-            </select>
+            <select id="studentClass" class="hidden"><option value="">-- اختر الفصل --</option></select>
         </div>
-        <button id="start-btn" class="btn" onclick="validateAndStart()">بدء الاختبار 🚀</button>
+        <button id="start-btn" class="btn" onclick="checkDoubleEntry()">التحقق وبدء النموذج (2) 🚀</button>
     </div>
 
     <div id="quiz-page" class="hidden">
@@ -64,27 +56,27 @@
             <div id="q-counter" style="font-weight: bold;"></div>
             <div id="timer">45</div>
         </div>
-        <div id="category-tag" class="q-category"></div>
-        <div id="reading-content" class="reading-text hidden"></div>
+        <span id="question-category" class="q-section-tag"></span>
+        <div id="reading-container" class="reading-box hidden"></div>
         <div id="question-text" class="q-text"></div>
         <div id="options-area" class="options-grid"></div>
         <div id="feedback-area" class="fb-box"></div>
         <div style="text-align: center; margin-top: 25px;">
-            <button id="next-btn" class="btn hidden" style="width: 50%;" onclick="nextQuestion()">السؤال التالي ⮕</button>
+            <button id="next-btn" class="btn hidden" onclick="nextQuestion()">السؤال التالي ⮕</button>
         </div>
     </div>
 
     <div id="result-page" class="hidden" style="text-align: center;">
-        <h2 style="color: var(--maroon);">النتيجة النهائية</h2>
+        <h2 style="color: var(--maroon);">انتهى النموذج (2)</h2>
         <div style="font-size: 4rem; font-weight: bold; margin: 20px 0; color: var(--gold);" id="score-text"></div>
-        <p id="cloud-msg"></p>
-        <button class="btn" style="width: auto;" onclick="location.reload()">إغلاق</button>
+        <p id="cloud-msg" style="font-size: 1.1rem; color: #555;"></p>
+        <button class="btn" onclick="location.reload()">الخروج</button>
     </div>
 </div>
 
 <script>
-    const MODEL_ID = "model_03_v2026"; 
-    const DEVICE_KEY = btoa(navigator.userAgent + screen.width + screen.height + navigator.language);
+    const currentModelId = "model_2"; 
+    const modelDisplayName = "نموذج (2)"; 
 
     const firebaseConfig = {
         apiKey: "AIzaSyBkCO7FDQXd89YDf843J4_AtvEFvzzt-R0",
@@ -97,136 +89,185 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    window.onload = function() {
-        if (localStorage.getItem("completed_" + MODEL_ID)) { showBlocked(); }
-    };
-
-    function showBlocked() {
-        document.getElementById('start-page').classList.add('hidden');
-        document.getElementById('blocked-page').classList.remove('hidden');
-    }
-
     function updateClasses() {
         const stage = document.getElementById('stageSelect').value;
         const classSelect = document.getElementById('studentClass');
         classSelect.innerHTML = '<option value="">-- اختر الفصل --</option>';
         if (stage) {
-            classSelect.style.display = 'block';
+            classSelect.classList.remove('hidden');
             for (let i = 1; i <= 6; i++) {
                 const opt = document.createElement('option');
                 opt.value = `${stage} - ${i}`;
                 opt.innerText = `فصل ${i}`;
                 classSelect.appendChild(opt);
             }
-        } else { classSelect.style.display = 'none'; }
+        } else { classSelect.classList.add('hidden'); }
     }
 
-    async function validateAndStart() {
-        const name = document.getElementById('studentName').value.trim();
-        const sClass = document.getElementById('studentClass').value;
-        if (name.split(' ').length < 3) return alert("يرجى كتابة الاسم الثلاثي الحقيقي.");
-        if (!sClass) return alert("يرجى اختيار الفصل.");
+    async function checkDoubleEntry() {
+        const nameInput = document.getElementById('studentName').value.trim();
+        const classInput = document.getElementById('studentClass').value;
+        if(nameInput.split(' ').length < 3) return alert("يرجى كتابة الاسم الثلاثي كاملاً.");
+        if(!classInput) return alert("يرجى اختيار الفصل.");
 
         const btn = document.getElementById('start-btn');
-        btn.disabled = true; btn.innerText = "جاري الفحص السحابي...";
+        btn.innerText = "جاري التحقق سحابياً... ⏳";
+        btn.disabled = true;
+
         try {
-            const checkDevice = await db.collection("student_results").where("model_id", "==", MODEL_ID).where("device_key", "==", DEVICE_KEY).get();
-            const checkName = await db.collection("student_results").where("model_id", "==", MODEL_ID).where("name", "==", name).get();
-            if (!checkDevice.empty || !checkName.empty) { showBlocked(); return; }
-            document.getElementById('start-page').classList.add('hidden');
-            document.getElementById('quiz-page').classList.remove('hidden');
-            loadQuestion();
-        } catch (e) { alert("فشل الاتصال."); btn.disabled = false; }
+            const snapshot = await db.collection("student_results")
+                .where("name", "==", nameInput)
+                .where("model_id", "==", currentModelId)
+                .get();
+
+            if (!snapshot.empty || localStorage.getItem('taken_' + currentModelId)) {
+                alert("يا " + nameInput + "، لقد تم رصد محاولة سابقة لك في هذا النموذج.");
+                location.reload();
+            } else { startQuiz(nameInput, classInput); }
+        } catch (e) { startQuiz(nameInput, classInput); }
     }
 
     const quizData = [
-        // تناظر لفظي جديد 2026
-        { cat: "التناظر اللفظي", q: "بصمة : إصبع", opts: ["نبرة : صوت", "عين : رؤية", "شعر : رأس", "رسم : ريشة"], ans: "نبرة : صوت", tip: "💡 علاقة الصفة المميزة للعضو؛ البصمة تميز الإصبع والنبرة تميز الصوت." },
-        { cat: "التناظر اللفظي", q: "نحل : خلية", opts: ["صقر : وكر", "نمل : رمل", "خيل : مضمار", "سمك : شبكة"], ans: "صقر : وكر", tip: "💡 الكائن الحي ومسكنه الخاص." },
-        { cat: "التناظر اللفظي", q: "اجتهاد : نجاح", opts: ["تخطيط : إنجاز", "قراءة : كتاب", "فشل : يأس", "سرعة : حادث"], ans: "تخطيط : إنجاز", tip: "💡 علاقة سبب ونتيجة إيجابية منظمة." },
-        { cat: "التناظر اللفظي", q: "مقال : كلمات", opts: ["بناء : لبنات", "شجرة : غابة", "فصل : مدرسة", "صورة : ألوان"], ans: "بناء : لبنات", tip: "💡 الكل وأجزائه الأساسية المكونة له." },
-        { cat: "التناظر اللفظي", q: "سيف : غمد", opts: ["خنجر : قراب", "نصل : مقبض", "رمح : درع", "قلم : محبرة"], ans: "خنجر : قراب", tip: "💡 السلاح وما يوضع بداخله (الحافظة)." },
+        // القسم 1: التناظر اللفظي (7 أسئلة)
+        { cat: "التناظر اللفظي", q: "رئة : تنفس", opts: ["قلب : ضخ", "عين : نظارة", "معدة : ألم", "يد : قفاز"], ans: "قلب : ضخ", tip: "علاقة العضو بوظيفته الأساسية." },
+        { cat: "التناظر اللفظي", q: "جندي : معسكر", opts: ["لاعب : ملعب", "طبيب : مريض", "معلم : علم", "تاجر : ربح"], ans: "لاعب : ملعب", tip: "علاقة الشخص بمكانه المخصص لعمله." },
+        { cat: "التناظر اللفظي", q: "منحل : عسل", opts: ["حقل : قمح", "بحر : سمك", "فرن : خبز", "شجر : ظل"], ans: "حقل : قمح", tip: "علاقة مكان الإنتاج بالمنتج." },
+        { cat: "التناظر اللفظي", q: "غزال : رشا", opts: ["أسد : شبل", "حصان : صهيل", "جمل : وبر", "طير : ريش"], ans: "أسد : شبل", tip: "علاقة الحيوان بصغيره (الرشا هو صغير الغزال)." },
+        { cat: "التناظر اللفظي", q: "قلم : كتابة", opts: ["مقص : قماش", "سكين : قطع", "فرشاة : تلوين", "ميزان : ثقل"], ans: "سكين : قطع", tip: "الأداة ووظيفتها المطلقة." },
+        { cat: "التناظر اللفظي", q: "محراب : مسجد", opts: ["نصل : سيف", "غرفة : بيت", "شراع : سفينة", "منارة : أذان"], ans: "نصل : سيف", tip: "علاقة الجزء بالكل (المحراب جزء ثابت في المسجد)." },
+        { cat: "التناظر اللفظي", q: "ليل : نهار", opts: ["ذهاب : إياب", "قمر : شمس", "برد : شتاء", "طويل : عملاق"], ans: "ذهاب : إياب", tip: "علاقة تضاد وتعاقب." },
 
-        // إكمال جمل متقدم
-        { cat: "إكمال الجمل", q: "إن الهزيمة الحقيقية هي التي ........ الإنسان من ........ وليس التي تكسر جسده.", opts: ["تحرم - الأمل", "تمنع - الحركة", "تجرد - المحاولة", "تخرج - الواقع"], ans: "تحرم - الأمل", tip: "💡 المعنى يركز على الجانب النفسي للهزيمة." },
-        { cat: "إكمال الجمل", q: "الكتابة هي ........ التي تمكننا من ........ عبر الزمن دون أن نتحرك من أماكننا.", opts: ["النافذة - الرؤية", "المركبة - السفر", "الوسيلة - التواصل", "اللغة - الحديث"], ans: "المركبة - السفر", tip: "💡 استعارة تعبر عن قدرة الكتابة على نقلنا عبر العصور." },
-        { cat: "إكمال الجمل", q: "لا تجعل ........ الماضي تظلم ........ المستقبل، فالحاضر هو جسر العبور.", opts: ["إخفاقات - طموحات", "عقبات - واقع", "ذكريات - أحلام", "أحزان - آمال"], ans: "إخفاقات - طموحات", tip: "💡 سياق يحث على التفاؤل والعمل للمستقبل." },
+        // القسم 2: إكمال الجمل (7 أسئلة)
+        { cat: "إكمال الجمل", q: "إن المعلومات التي نمتلكها اليوم تصبح ...... غداً، لذا يجب علينا ...... البحث والتعلم.", opts: ["قديمة - مواصلة", "كافية - ترك", "خاطئة - إهمال", "مفيدة - استرجاع"], ans: "قديمة - مواصلة", tip: "التطور المعرفي يحتاج استمرارية." },
+        { cat: "إكمال الجمل", q: "المتواضع هو الذي ...... من شأنه وهو ...... ، والمتكبر هو الذي ...... من شأنه وهو ...... .", opts: ["يقلل - عظيم - يرفع - وضيع", "يرفع - عالم - يخفض - جاهل", "يزيد - ناجح - ينقص - فاشل", "يخفي - غني - يظهر - فقير"], ans: "يقلل - عظيم - يرفع - وضيع", tip: "مفارقة التواضع والكبر." },
+        { cat: "إكمال الجمل", q: "لا تجعل عوائق الماضي ...... طريقك نحو ...... .", opts: ["تسد - المستقبل", "تمهد - النجاح", "ترسم - التميز", "تغير - الفشل"], ans: "تسد - المستقبل", tip: "تجاوز الماضي لتحقيق الآتي." },
+        { cat: "إكمال الجمل", q: "أفضل وسيلة للتنبؤ بالمستقبل هي ...... .", opts: ["صناعته", "انتظاره", "تجاهله", "توقعه"], ans: "صناعته", tip: "حكمة شهيرة عن العمل والريادة." },
+        { cat: "إكمال الجمل", q: "من أراد ...... القمة، فعليه بالصبر على ...... الطريق.", opts: ["بلوغ - وعورة", "نزول - سهولة", "رؤية - طول", "تسلق - جمال"], ans: "بلوغ - وعورة", tip: "النجاح يتطلب الصبر على الشدائد." },
+        { cat: "إكمال الجمل", q: "العلم بلا عمل كـ ...... بلا ...... .", opts: ["الشجر - ثمر", "البحر - ملح", "السماء - غيوم", "الليل - نجوم"], ans: "الشجر - ثمر", tip: "العمل هو غاية العلم." },
+        { cat: "إكمال الجمل", q: "كن ...... في مواجهة الصعاب، فـ ...... يكسر أشد العقبات.", opts: ["حازماً - الإصرار", "لينًا - الهروب", "غافلاً - الوقت", "هادئاً - الحظ"], ans: "حازماً - الإصرار", tip: "القوة تكمن في العزيمة." },
 
-        // خطأ سياقي محير
-        { cat: "الخطأ السياقي", q: "يجب على الإنسان أن يكون صبوراً في مواجهة الصعاب، فاليأس هو القوة التي تدفعه لتجاوز الأزمات.", opts: ["القوة", "صبوراً", "اليأس", "الأزمات"], ans: "اليأس", tip: "💡 التصحيح: الأمل/الإصرار هو القوة." },
-        { cat: "الخطأ السياقي", q: "الذكاء الحقيقي هو إدراك الفرد لمدى علمه، فكلما زاد علمه شعر بمدى كماله المعرفي.", opts: ["كماله", "الحقيقي", "إدراك", "علمه"], ans: "كماله", tip: "💡 التصحيح: شعر بمدى 'نقص' أو 'حاجته' للمزيد." },
+        // القسم 3: الخطأ السياقي (7 أسئلة)
+        { cat: "الخطأ السياقي", q: "القاعدة في الحياة أن تبتسم في وجه الصعاب، فالبكاء يقلل من حجم المشكلة.", opts: ["الحياة", "تبتسم", "البكاء", "يقلل"], ans: "يقلل", tip: "الصواب: يزيد من صعوبتها." },
+        { cat: "الخطأ السياقي", q: "الذكاء هو سرعة التعلم، أما الحكمة فهي القدرة على تجاهل الأشياء الهامة.", opts: ["الذكاء", "الحكمة", "تجاهل", "الهامة"], ans: "الهامة", tip: "الصواب: تجاهل الأشياء التافهة." },
+        { cat: "الخطأ السياقي", q: "يجب على الإنسان أن يحافظ على ماله كما يحافظ على كرامته، لأن الفقر هو مفتاح العزة.", opts: ["يحافظ", "ماله", "الفقر", "العزة"], ans: "العزة", tip: "الصواب: مفتاح الذل أو الحاجة." },
+        { cat: "الخطأ السياقي", q: "من أعظم صور الوفاء أن تخون من وثق بك في غيابه.", opts: ["صور", "الوفاء", "تخون", "وثق"], ans: "تخون", tip: "الصواب: أن تحفظ." },
+        { cat: "الخطأ السياقي", q: "الحقيقة مثل الشمس، يمكنك حجبها لفترة طويلة ولكنها ستختفي في النهاية.", opts: ["الحقيقة", "حجبها", "لفترة", "ستختفي"], ans: "ستختفي", tip: "الصواب: ستظهر." },
+        { cat: "الخطأ السياقي", q: "الاعتذار عن الخطأ لا ينقص من قدرك، بل يزيد من كره الناس لك.", opts: ["الاعتذار", "ينقص", "يزيد", "كره"], ans: "كره", tip: "الصواب: تقدير." },
+        { cat: "الخطأ السياقي", q: "الإنسان الناجح يرى في كل عقبة فرصة، أما الفاشل فيرى في كل فرصة سعادة.", opts: ["الناجح", "عقبة", "الفاشل", "سعادة"], ans: "سعادة", tip: "الصواب: يرى فيها عقبة أو مشكلة." },
 
-        // استيعاب مقروء بنص طويل
+        // القسم 4: استيعاب المقروء (7 أسئلة)
         { 
             cat: "استيعاب المقروء", 
-            text: "تعد تقنية الذكاء الاصطناعي ثورة في عالم الحوسبة، حيث تهدف إلى محاكاة القدرات الذهنية البشرية وأنماط عملها، مثل التعلم والاستنتاج. ومع ذلك، يرى الخبراء أن هذه التقنية ليست بديلاً للعقل البشري، بل هي أداة معززة له؛ فهي تتفوق في معالجة البيانات الضخمة بسرعة تفوق القدرات البشرية بمراحل، لكنها تفتقر إلى الحس الإبداعي والأخلاقي الذي يميز الإنسان. إن الاعتماد الكلي عليها قد يؤدي إلى ضمور بعض المهارات التحليلية لدى الأفراد، لذا يجب الموازنة بين استخدام التقنية وتطوير الفكر البشري المستقل.",
-            q: "من خلال النص، يتفوق الذكاء الاصطناعي على البشر في:", 
-            opts: ["سرعة معالجة البيانات", "الحس الإبداعي", "القيم الأخلاقية", "التحليل المستقل"], 
-            ans: "سرعة معالجة البيانات", 
-            tip: "💡 النص ذكر صراحة تفوقه في معالجة البيانات الضخمة." 
+            passage: "يعتبر الاستذكار الفعال عملية ذهنية نشطة، لا تقتصر فقط على قراءة المعلومات، بل تتعدى ذلك إلى التحليل والربط بين الأفكار لضمان بقائها في الذاكرة طويلة المدى.",
+            q: "عملية الاستذكار الفعال كما ورد في النص تعني:", 
+            opts: ["القراءة السريعة", "تخزين المعلومات فقط", "الربط والتحليل", "نسيان المعلومات القديمة"], 
+            ans: "الربط والتحليل", 
+            tip: "التركيز على الفهم والربط هو جوهر النص." 
         },
         { 
             cat: "استيعاب المقروء", 
-            text: " "تعد تقنية الذكاء الاصطناعي ثورة في عالم الحوسبة، حيث تهدف إلى محاكاة القدرات الذهنية البشرية وأنماط عملها، مثل التعلم والاستنتاج. ومع ذلك، يرى الخبراء أن هذه التقنية ليست بديلاً للعقل البشري، بل هي أداة معززة له؛ فهي تتفوق في معالجة البيانات الضخمة بسرعة تفوق القدرات البشرية بمراحل، لكنها تفتقر إلى الحس الإبداعي والأخلاقي الذي يميز الإنسان. إن الاعتماد الكلي عليها قد يؤدي إلى ضمور بعض المهارات التحليلية لدى الأفراد، لذا يجب الموازنة بين استخدام التقنية وتطوير الفكر البشري المستقل ",
-            q: "الهدف الرئيسي من تحذير الخبراء في نهاية النص هو:", 
-            opts: ["الحفاظ على المهارات البشرية", "منع استخدام التقنية", "زيادة سرعة الحواسيب", "استبدال الموظفين"], 
-            ans: "الحفاظ على المهارات البشرية", 
-            tip: "💡 التحذير كان من ضمور المهارات التحليلية." 
+            passage: "البصمة الوراثية هي التسلسل الجيني الذي يميز كل إنسان عن غيره، وهي أداة دقيقة جداً في التحقيقات الجنائية وتحديد القرابة، حيث لا يتشابه فيها شخصان إلا في حالة التوائم المتطابقة.",
+            q: "متى تتشابه البصمة الوراثية بين شخصين؟", 
+            opts: ["بين الإخوة دائماً", "في حالة التوائم المتطابقة", "بين الأب والابن", "لا تتشابه مطلقاً"], 
+            ans: "في حالة التوائم المتطابقة", 
+            tip: "مذكور صراحة كاستثناء وحيد." 
         },
         { 
             cat: "استيعاب المقروء", 
-            text: "تعتبر الطاقة المتجددة، مثل الطاقة الشمسية وطاقة الرياح، حجر الزاوية في مكافحة التغير المناخي العالمي. وعلى عكس الوقود الأحفوري الذي يتسبب في انبعاث غازات الاحتباس الحراري، توفر هذه المصادر طاقة نظيفة ومستدامة. إلا أن التحدي الأكبر يكمن في تكلفة البنية التحتية الأولية وصعوبة تخزين الطاقة لفترات طويلة. تبذل الدول حالياً جهوداً مضنية لتطوير تقنيات تخزين البطاريات لجعل الاعتماد على الطاقة المتجددة متاحاً على مدار الساعة، مما يقلل الارتباط بالموارد غير المتجددة الناضبة.",
-            q: "وفقاً للنص، المشكلة الكبرى التي تواجه الطاقة المتجددة حالياً هي:", 
-            opts: ["التخزين والتكلفة", "انبعاث الغازات", "ندرة المصادر", "التلوث البيئي"], 
-            ans: "التخزين والتكلفة", 
-            tip: "💡 النص أشار لتكلفة البنية وتخزين الطاقة كأكبر التحديات." 
+            passage: "تعد التجارة الإلكترونية وسيلة لتبادل السلع والخدمات عبر الإنترنت، وقد ساهمت في خفض التكاليف التشغيلية للمؤسسات وزيادة سرعة الوصول للعملاء حول العالم.",
+            q: "من فوائد التجارة الإلكترونية للمؤسسات:", 
+            opts: ["زيادة التكاليف", "تقليل سرعة البيع", "خفض تكاليف التشغيل", "صعوبة التواصل"], 
+            ans: "خفض تكاليف التشغيل", 
+            tip: "النص يربطها بخفض التكاليف والوصول السريع." 
         },
-        { cat: "المفردة الشاذة", q: "اختر المفردة الشاذة:", opts: ["الرادار", "السونار", "المجهر", "الأقمار الصناعية"], ans: "المجهر", tip: "💡 البقية أدوات استشعار عن بعد (كشف مسافات)، المجهر للرؤية القريبة جداً." }
+        { 
+            cat: "استيعاب المقروء", 
+            passage: "المياه الجوفية هي المياه المخزنة في مسام الصخور والتربة تحت سطح الأرض، وتعتبر مصدراً أساسياً للري في المناطق الجافة التي تفتقر للأنهار الدائمة.",
+            q: "تعتمد المناطق الجافة على المياه الجوفية بسبب:", 
+            opts: ["وفرة الأنهار", "نقص الأنهار الدائمة", "كثرة الأمطار", "سهولة استخراجها"], 
+            ans: "نقص الأنهار الدائمة", 
+            tip: "السبب هو الافتقار للأنهار." 
+        },
+        { 
+            cat: "استيعاب المقروء", 
+            passage: "الأوزون غاز يحمي الأرض من الأشعة فوق البنفسجية الضارة، ويتأثر سلباً بمركبات الكلوروفلوروكربون المستخدمة في التبريد.",
+            q: "ما الذي يضر طبقة الأوزون؟", 
+            opts: ["الأكسجين", "مركبات التبريد", "الأشعة الضارة", "الأشجار"], 
+            ans: "مركبات التبريد", 
+            tip: "مذكور تأثير مركبات الكلوروفلوروكربون (التبريد)." 
+        },
+        { 
+            cat: "استيعاب المقروء", 
+            passage: "تعتبر اللغة العربية من أقدم اللغات السامية، وتتميز بنظام اشتقاقي واسع يتيح توليد آلاف الكلمات من جذر واحد، مما يجعلها غنية بالمفردات.",
+            q: "تستمد اللغة العربية ثراءها من:", 
+            opts: ["قدمها فقط", "نظامها الاشتقاقي", "قلة مفرداتها", "تشابهها مع اللغات"], 
+            ans: "نظامها الاشتقاقي", 
+            tip: "الاشتقاق هو سر توليد الكلمات والثراء." 
+        },
+        { 
+            cat: "استيعاب المقروء", 
+            passage: "الفيتامينات عناصر يحتاجها الجسم بكميات ضئيلة لكنها حيوية، ونقص فيتامين (أ) قد يؤدي إلى ضعف الرؤية الليلية أو ما يعرف بالعشى الليلي.",
+            q: "نقص فيتامين (أ) يؤثر بشكل مباشر على:", 
+            opts: ["العظام", "النمو", "النظر", "السمع"], 
+            ans: "النظر", 
+            tip: "العشى الليلي هو ضعف في الرؤية." 
+        },
+
+        // القسم 5: المفردة الشاذة (6 أسئلة)
+        { cat: "المفردة الشاذة", q: "حدد المفردة الشاذة: (متر - كيلومتر - ميل - جرام)", opts: ["متر", "كيلومتر", "ميل", "جرام"], ans: "جرام", tip: "البقية وحدات قياس طول، أما الجرام للكتلة." },
+        { cat: "المفردة الشاذة", q: "حدد المفردة الشاذة: (رواية - قصيدة - قصة - مسرحية)", opts: ["رواية", "قصيدة", "قصة", "مسرحية"], ans: "قصيدة", tip: "البقية فنون نثرية، أما القصيدة فهي شعر." },
+        { cat: "المفردة الشاذة", q: "حدد المفردة الشاذة: (صقر - نسر - بومة - دجاجة)", opts: ["صقر", "نسر", "بومة", "دجاجة"], ans: "دجاجة", tip: "البقية طيور جارحة." },
+        { cat: "المفردة الشاذة", q: "حدد المفردة الشاذة: (ذهب - فضة - نحاس - خشب)", opts: ["ذهب", "فضة", "نحاس", "خشب"], ans: "خشب", tip: "البقية معادن." },
+        { cat: "المفردة الشاذة", q: "حدد المفردة الشاذة: (المالكية - الشافعية - الحنفية - المعتزلة)", opts: ["المالكية", "الشافعية", "الحنفية", "المعتزلة"], ans: "المعتزلة", tip: "البقية مذاهب فقهية كبرى." },
+        { cat: "المفردة الشاذة", q: "حدد المفردة الشاذة: (تفاح - جزر - برتقال - موز)", opts: ["تفاح", "جزر", "برتقال", "موز"], ans: "جزر", tip: "البقية فواكه، الجزر من الخضروات الجذريّة." },
+
+        // القسم 6: الارتباط والاختلاف (6 أسئلة)
+        { cat: "الارتباط والاختلاف", q: "ما الكلمة التي ترتبط بـ 'سفينة'؟", opts: ["مرسى", "مطار", "سكة", "طريق"], ans: "مرسى", tip: "المرسى هو مكان وقوف السفينة." },
+        { cat: "الارتباط والاختلاف", q: "ما الكلمة التي ترتبط بـ 'مستشفى'؟", opts: ["مبضع", "قلم", "منشار", "فرشاة"], ans: "مبضع", tip: "المبضع أداة جراحية مرتبطة بالمستشفى." },
+        { cat: "الارتباط والاختلاف", q: "أي مما يلي يختلف عن البقية؟", opts: ["شاحنة", "سيارة", "حافلة", "دراجة"], ans: "دراجة", tip: "البقية مركبات بمحركات وقود رباعية العجلات (غالباً)." },
+        { cat: "الارتباط والاختلاف", q: "ما الكلمة التي ترتبط بـ 'شتاء'؟", opts: ["مطر", "قيظ", "حرارة", "رطب"], ans: "مطر", tip: "المطر مرتبط بموسم الشتاء." },
+        { cat: "الارتباط والاختلاف", q: "أي الكلمات تنتمي لمجموعة 'الحمضيات'؟", opts: ["ليمون", "عنب", "توت", "تين"], ans: "ليمون", tip: "الليمون من فصيلة الحمضيات." },
+        { cat: "الارتباط والاختلاف", q: "ما الكلمة المرتبطة بـ 'النجارة'؟", opts: ["قدوم", "مقص", "مبضع", "مشرط"], ans: "قدوم", tip: "القدوم أداة أساسية للنجار." }
     ];
 
-    // إكمال 40 سؤالاً فريداً تماماً (تمت إضافة هيكل الأسئلة هنا لضمان عدم التكرار)
-    const extraQ = [
-        { cat: "التناظر اللفظي", q: "ريشة : رسام", opts: ["مشرط : جراح", "طائرة : طيار", "كتاب : مؤلف", "هدف : لاعب"], ans: "مشرط : جراح", tip: "💡 الأداة ومستخدمها المتخصص." },
-        { cat: "إكمال الجمل", q: "من أراد ........ فعليه بالصبر، فـ ........ هي مفتاح الفرج.", opts: ["النجاح - المثابرة", "الراحة - القناعة", "العلم - القراءة", "التفوق - المذاكرة"], ans: "النجاح - المثابرة", tip: "💡 سياق تحفيزي متكامل." }
-    ];
-    while(quizData.length < 40) { quizData.push({...extraQ[quizData.length % extraQ.length]}); }
+    let currentIdx = 0, userScore = 0, timer, sName, sClass;
 
-    let currentIdx = 0, userScore = 0, timer;
+    function startQuiz(name, cls) {
+        sName = name; sClass = cls;
+        document.getElementById('start-page').classList.add('hidden');
+        document.getElementById('quiz-page').classList.remove('hidden');
+        loadQuestion();
+    }
 
     function loadQuestion() {
-        if(currentIdx >= 40) return finishQuiz();
+        if(currentIdx >= quizData.length) return finishQuiz();
         const data = quizData[currentIdx];
-        document.getElementById('q-counter').innerText = `السؤال ${currentIdx + 1} / 40`;
-        document.getElementById('category-tag').innerText = data.cat;
-        const rb = document.getElementById('reading-content');
-        if(data.text) { rb.innerText = data.text; rb.classList.remove('hidden'); }
-        else { rb.classList.add('hidden'); }
+        document.getElementById('q-counter').innerText = `السؤال ${currentIdx + 1} / ${quizData.length}`;
+        document.getElementById('question-category').innerText = `القسم: ${data.cat}`;
+        const rc = document.getElementById('reading-container');
+        if(data.passage) { rc.innerText = data.passage; rc.classList.remove('hidden'); }
+        else { rc.classList.add('hidden'); }
         document.getElementById('question-text').innerText = data.q;
         document.getElementById('next-btn').classList.add('hidden');
         document.getElementById('feedback-area').style.display = 'none';
-        const box = document.getElementById('options-area');
-        box.innerHTML = '';
+        const box = document.getElementById('options-area'); box.innerHTML = '';
         [...data.opts].sort(() => Math.random() - 0.5).forEach(o => {
-            const d = document.createElement('div');
-            d.className = 'opt'; d.innerText = o;
-            d.onclick = () => check(o, d);
-            box.appendChild(d);
+            const d = document.createElement('div'); d.className = 'opt'; d.innerText = o;
+            d.onclick = () => check(o, d); box.appendChild(d);
         });
         startTimer();
     }
 
     function check(sel, el) {
-        clearInterval(timer);
-        const correctAns = quizData[currentIdx].ans;
+        clearInterval(timer); const correctAns = quizData[currentIdx].ans;
         if(sel === correctAns) userScore++;
         document.querySelectorAll('.opt').forEach(opt => {
             opt.onclick = null;
             if(opt.innerText === correctAns) opt.classList.add('correct');
             else if(opt.innerText === sel) opt.classList.add('wrong');
         });
-        const fb = document.getElementById('feedback-area');
-        fb.innerHTML = quizData[currentIdx].tip + "<br><br>✨ أ / عبد العزيز الفيفي 🎓";
-        fb.style.display = 'block';
+        const fbArea = document.getElementById('feedback-area');
+        fbArea.innerText = "💡 " + quizData[currentIdx].tip; fbArea.style.display = 'block';
         document.getElementById('next-btn').classList.remove('hidden');
     }
 
@@ -242,18 +283,16 @@
     function nextQuestion() { currentIdx++; loadQuestion(); }
 
     async function finishQuiz() {
-        localStorage.setItem("completed_" + MODEL_ID, "true");
         document.getElementById('quiz-page').classList.add('hidden');
         document.getElementById('result-page').classList.remove('hidden');
-        document.getElementById('score-text').innerText = `${userScore} / 40`;
+        document.getElementById('score-text').innerText = `${userScore} / ${quizData.length}`;
+        localStorage.setItem('taken_' + currentModelId, 'true');
         try {
             await db.collection("student_results").add({
-                name: document.getElementById('studentName').value,
-                student_class: document.getElementById('studentClass').value,
-                score: userScore, total: 40, model_id: MODEL_ID, device_key: DEVICE_KEY,
+                name: sName, student_class: sClass, score: userScore, total: quizData.length, model_id: currentModelId,
                 time: firebase.firestore.FieldValue.serverTimestamp()
             });
-            document.getElementById('cloud-msg').innerText = "✅ تم حفظ النتيجة سحابياً بنجاح في سجلات أ/ عبدالعزيز الفيفي";
+            document.getElementById('cloud-msg').innerText = "✅ تم حفظ نتيجة نموذج (2) بنجاح يا " + sName;
         } catch(e) { console.error(e); }
     }
 </script>
